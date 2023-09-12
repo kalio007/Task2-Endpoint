@@ -1,0 +1,6 @@
+//using the get client extension
+
+GET http://localhost:3001/person
+###
+GET http://localhost:3001/person/Kalio
+
