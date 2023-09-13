@@ -54,7 +54,7 @@ The API should now be running on the specified port (default is 3000).
 
 ## API Endpoints, Use Cases, and Error Handling
 
-See [documentation]().
+See [documentation](https://github.com/kalio007/Task2-Endpoint/blob/main/docs/DOCUMENTATION.md).
 
 ## Conclusion
 

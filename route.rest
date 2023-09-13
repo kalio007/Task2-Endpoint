@@ -3,4 +3,12 @@
 GET http://localhost:3001/person
 ###
 GET http://localhost:3001/person/Kalio
+###
 
+POST  http://localhost:3001/person
+
+Content-Type: application/json
+
+{
+    "name": "Mark"
+}
