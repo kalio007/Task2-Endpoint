@@ -1,0 +1,18 @@
+//using the get client extension
+
+GET http://localhost:3001/api
+###
+GET http://localhost:3001/api/:65018a0144e0198e3f214131
+
+
+###
+DELETE http://localhost:3001/api/:6501ab4d1ebfe0dab460bbae
+
+###
+
+POST  http://localhost:3001/api
+Content-Type: application/json
+
+{
+    "name": "Hello"
+}

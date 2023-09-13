@@ -54,6 +54,7 @@ router.delete('/:id', getPerson, async (req, res) => {
 
 //creating a middleware to handle the request frist before attending to the request
 async function getPerson(req, res, next) {
+    let person;
     try {
         person = await Person.findById(req.params.id)
         if (person === null) {
