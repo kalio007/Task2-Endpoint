@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Person = require('../model/person');
-const person = require('../model/person');
 
 //Geting all users
 router.get('/', async (req, res) => {
@@ -14,7 +13,7 @@ router.get('/', async (req, res) => {
 })
 // Getting one
 router.get('/:id', getPerson, (req, res) => {
-    res.json(res.person)
+    res.send(res.person.name)
 })
 //Creating one
 router.post('/', async (req, res) => {
@@ -25,7 +24,7 @@ router.post('/', async (req, res) => {
         const newPerson = await person.save()
         res.status(201).json(newPerson)
     } catch (error) {
-        res.status(400).json({ message: error.message }) //400- something is wrong with user input
+        res.status(400).json({ message: error.message }) //400 something is wrong with user input
     }
 
 })
