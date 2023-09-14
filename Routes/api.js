@@ -88,6 +88,17 @@ router.delete('/:id', async (req, res) => {
         res.json(400).json({ error: error.message })
     }
 })
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedItem = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedItem) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+        res.json(updatedItem);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
 
 
 module.exports = router

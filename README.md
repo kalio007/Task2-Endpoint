@@ -2,6 +2,8 @@
 
 This CRUD API was built using Express.js and Mongoose, utilizing a MongoDB database for managing a list of items. It also includes CORS support and uses dotenv for managing environmental variables.
 
+This project can be found on https://hng-task2-g7uj.onrender.com/api/
+
 ## Prerequisites
 
 Before you get started, make sure you have the following installed on your system:
@@ -55,6 +57,8 @@ The API should now be running on the specified port (default is 3000).
 ## API Endpoints, Use Cases, and Error Handling
 
 See [documentation](https://github.com/kalio007/Task2-Endpoint/blob/main/docs/DOCUMENTATION.md).
+
+https://github.com/kalio007/Task2-Endpoint/blob/main/docs/DOCUMENTATION.md
 
 ## Conclusion
 
