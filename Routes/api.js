@@ -1,68 +1,93 @@
 const express = require('express');
 const router = express.Router();
-const Person = require('../model/person');
+const User = require('../model/person');
+
+const mongoose = require('mongoose');
 
 //Geting all users
 router.get('/', async (req, res) => {
     try {
-        const people = await Person.find()
-        res.json(people)
+        const users = await User.find({}).sort({ createdAt: -1 })
+        res.status(200).json(users)
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.json(400).json({ error: error.message })
+
     }
+
 })
 // Getting one
-router.get('/:id', getPerson, (req, res) => {
-    res.send(res.person.name)
+router.get('/:id', async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such user' })
+    }
+
+    const user = await User.findById(id)
+
+    if (!user) {
+        return res.status(404).json({ error: 'No such user' })
+    }
+
+    res.status(200).json(user)
+
+
 })
 //Creating one
 router.post('/', async (req, res) => {
-    const person = new Person({
-        name: req.body.name
-    })
+    const { name } = req.body
+
+    //add doc to db
     try {
-        const newPerson = await person.save()
-        res.status(201).json(newPerson)
+        const user = await User.create({ name })
+        res.status(200).json(user)
     } catch (error) {
-        res.status(400).json({ message: error.message }) //400 something is wrong with user input
+        res.json(400).json({ error: error.message })
     }
 
 })
 //updating one
-router.patch('/:id', getPerson, async (req, res) => {
-    if (req.body.name != null) {
-        res.person.name = req.body.name
-    }
+router.patch('/:id', async (req, res) => {
+    const { id } = req.params
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such user' })
+    }
+    //add delete to db
     try {
-        const updatedPerson = await res.person.save()
-        res.json(updatedPerson)
+        const user = await User.findOneAndUpdate({ _id: id }, {
+            ...req.body
+        })
+
+        if (!user) {
+            return res.status(404).json({ error: 'No such user' })
+        }
+
+        res.status(200).json(user)
     } catch (error) {
-        res.status(400).json({ message: err.message })
+        res.json(400).json({ error: error.message })
     }
 
 })
 //Deleting one
-router.delete('/:id', getPerson, async (req, res) => {
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such user id' })
+    }
     try {
-        await res.person.remove()
-        res.status(200).json({ message: "user deleted" })
+        const user = await User.findOneAndDelete({ _id: id })
+
+        if (!user) {
+            return res.status(404).json({ error: 'No such user' })
+        }
+
+        res.status(200).json(user)
     } catch (error) {
-        res.status(500).json({ message: err.message })
+        res.json(400).json({ error: error.message })
     }
 })
 
-//creating a middleware to handle the request frist before attending to the request
-async function getPerson(req, res, next) {
-    let person;
-    try {
-        person = await Person.findById(req.params.id)
-        if (person === null) {
-            return res.status(404).json({ message: "no such user" })
-        }
-    } catch (error) {
-        return res.status(500).json({ message: err.message })
-    }
-}
 
 module.exports = router
